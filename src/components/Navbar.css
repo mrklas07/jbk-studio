@@ -1,0 +1,170 @@
+/* src/components/Navbar.css */
+
+/* --- ESTILOS BASE (PC/LAPTOP) --- */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 80px;
+    background: rgba(5, 5, 5, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 999;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.nav-logo {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.menu-icon {
+    display: none; /* Oculto en PC por defecto */
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    text-align: center;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.nav-links:hover {
+    color: var(--secondary);
+}
+
+/* BOTÓN ESCRITORIO (Visible en PC) */
+.btn-desktop {
+    display: block;
+    background: transparent;
+    color: white;
+    border: 2px solid var(--primary);
+    padding: 8px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-desktop:hover {
+    background: var(--primary);
+}
+
+/* BOTÓN MÓVIL (Oculto en PC) */
+.mobile-btn-container {
+    display: none; 
+}
+
+
+/* --- ESTILOS RESPONSIVE (MÓVIL < 960px) --- */
+@media screen and (max-width: 960px) {
+    
+    /* 1. Ocultar botón de escritorio explícitamente */
+    .btn-desktop {
+        display: none !important;
+    }
+
+    /* 2. Mostrar icono hamburguesa */
+    .menu-icon {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(-50%, 60%);
+        font-size: 1.8rem;
+        cursor: pointer;
+        color: #fff;
+        z-index: 1001; /* Asegurar que esté encima de todo */
+    }
+
+    /* 3. Estilo del Menú Desplegable */
+    .nav-menu {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100vh;
+        position: absolute;
+        top: 80px; /* Debajo del navbar */
+        left: -100%; /* Escondido a la izquierda */
+        opacity: 0;
+        transition: all 0.5s ease;
+        background: #050505; /* Fondo negro sólido */
+        padding-top: 50px;
+        align-items: center; /* Centrado horizontal */
+    }
+
+    .nav-menu.active {
+        left: 0; /* Aparece */
+        opacity: 1;
+        z-index: 1000;
+    }
+
+    .nav-item {
+        margin-bottom: 30px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .nav-links {
+        font-size: 1.5rem;
+        width: 100%;
+        display: block;
+        padding: 10px 0;
+    }
+
+    /* 4. Mostrar y Estilizar Botón Móvil */
+    .mobile-btn-container {
+        display: block; /* Ahora sí se muestra */
+        width: 100%;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn-mobile {
+        padding: 15px 50px;
+        border-radius: 50px;
+        background: transparent;
+        border: 2px solid var(--primary);
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        width: 80%; /* Ancho controlado */
+        max-width: 300px;
+    }
+
+    .btn-mobile:hover {
+        background: var(--primary);
+        color: white;
+    }
+}

@@ -1,0 +1,51 @@
+/* src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600&display=swap');
+
+:root {
+  --primary: #7000FF;    /* Púrpura eléctrico */
+  --secondary: #FFD600;  /* Amarillo impactante */
+  --bg-dark: #050505;    /* Fondo casi negro */
+  --text-white: #ffffff;
+  --glass: rgba(255, 255, 255, 0.05); /* Efecto vidrio */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-dark);
+  color: var(--text-white);
+  font-family: 'Open Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, button {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Efecto especial para textos huecos */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--secondary);
+}
+
+/* Utilidad para centrar cosas */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+
+/* Reglas Responsive Globales */
+@media screen and (max-width: 768px) {
+  /* Reducir títulos gigantes en celular */
+  h1 {
+    font-size: 3rem !important; 
+  }
+  
+  /* Ajustar padding de secciones para que no quede tanto espacio */
+  section {
+    padding-top: 60px !important;
+    padding-bottom: 60px !important;
+  }
+}
