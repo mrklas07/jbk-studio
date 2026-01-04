@@ -1,12 +1,31 @@
-// src/components/Hero.jsx
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-// IMPORTANTE: Aquí importamos TU imagen desde la carpeta assets
-// Si tu archivo tiene otro nombre, cambia 'statue.png' por el tuyo
-import statueImage from '../assets/statue.png'; 
+// --- IMPORTA TUS IMÁGENES AQUÍ ---
+// Puedes agregar cuantas quieras. Asegúrate de tenerlas en la carpeta assets.
+import img1 from '../assets/portfolio/dw/logo.jpg'; // Imagen 1 (Tu estatua original o la que quieras)
+import img2 from '../assets/portfolio/rs/pierdesclientes.webp'; // Ejemplo Imagen 2
+import img3 from '../assets/portfolio/dw/tienda.webp'; // Ejemplo Imagen 3
+
+// Las metemos en un arreglo para facilitar el manejo
+const heroImages = [img1, img2, img3];
 
 const Hero = () => {
+  // Estado para controlar qué imagen se muestra (0, 1, 2...)
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Efecto para cambiar la imagen automáticamente cada 4 segundos
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prevIndex) => 
+        // Si llegamos al final, volvemos al 0 (loop infinito)
+        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 4000); // 4000ms = 4 segundos
+
+    return () => clearInterval(timer); // Limpieza al desmontar
+  }, []);
+
   return (
     <section id="inicio" style={styles.section}>
       <div className="container" style={styles.container}>
@@ -40,28 +59,40 @@ const Hero = () => {
             style={styles.btnGroup}
           >
             <button style={styles.btnPrimary}>DESPEGA TU NEGOCIO 🚀</button>
-           <a href="#proyectos" style={{ textDecoration: 'none' }}>
-    <button style={styles.btnSecondary}>VER PROYECTOS</button>
-</a>
+            <a href="#proyectos" style={{ textDecoration: 'none' }}>
+              <button style={styles.btnSecondary}>VER PROYECTOS</button>
+            </a>
           </motion.div>
         </div>
 
-        {/* --- IMAGEN (Derecha) --- */}
+        {/* --- CARRUSEL DE IMÁGENES (Derecha) --- */}
         <div style={styles.imageContainer}>
-          {/* Luz de fondo detrás de la estatua */}
+          {/* Luz de fondo */}
           <div style={styles.gradientOrb}></div>
 
-          <motion.img 
-            src={statueImage} 
-            alt="Estatua JBK Studio"
-            initial={{ x: 100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1, y: [0, -20, 0] }} // Animación de flotar
-            transition={{ 
-              x: { duration: 1 },
-              y: { repeat: Infinity, duration: 4, ease: "easeInOut" } // Flotar infinito
-            }}
-            style={styles.image}
-          />
+          {/* Contenedor Flotante: Animamos el contenedor para que flote,
+              y adentro cambiamos las imágenes con fade */}
+          <motion.div
+            animate={{ y: [0, -20, 0] }} // Flotar infinito
+            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+            style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', justifyContent: 'center' }}
+          >
+            <AnimatePresence mode='wait'>
+              <motion.img 
+                key={currentIndex} // La clave es vital para que React sepa que cambió la imagen
+                src={heroImages[currentIndex]} 
+                alt="JBK Studio Slide"
+                
+                // Animación de entrada y salida (Fade + Slide suave)
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 0.5 }}
+                
+                style={styles.image}
+              />
+            </AnimatePresence>
+          </motion.div>
         </div>
 
       </div>
@@ -69,16 +100,15 @@ const Hero = () => {
   );
 };
 
-// --- ESTILOS (CSS en JS) ---
+// --- ESTILOS ---
 const styles = {
   section: {
-    minHeight: '100vh', // Ocupa toda la pantalla
+    minHeight: '100vh',
     display: 'flex',
     alignItems: 'center',
-    // Degradado Vaporwave oscuro
     background: 'radial-gradient(circle at top right, #2a004d 0%, #050505 60%)',
     overflow: 'hidden',
-    paddingTop: '80px', // Espacio para el Navbar
+    paddingTop: '80px',
     paddingBottom: '40px'
   },
   container: {
@@ -89,7 +119,7 @@ const styles = {
     maxWidth: '1200px',
     margin: '0 auto',
     padding: '0 20px',
-    flexWrap: 'wrap' // Para que se adapte a móviles
+    flexWrap: 'wrap'
   },
   content: {
     flex: 1,
@@ -98,7 +128,7 @@ const styles = {
     marginBottom: '40px'
   },
   title: {
-    fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', // Tamaño adaptable
+    fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
     fontWeight: '900',
     lineHeight: '1.1',
     marginBottom: '20px'
@@ -123,7 +153,7 @@ const styles = {
     fontSize: '1rem',
     fontWeight: 'bold',
     cursor: 'pointer',
-    borderRadius: '50px', // Botones redondos modernos
+    borderRadius: '50px',
     boxShadow: '0 0 20px rgba(255, 214, 0, 0.4)',
     transition: 'transform 0.3s'
   },
@@ -142,16 +172,19 @@ const styles = {
     flex: 1,
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center', // Centrado vertical
     position: 'relative',
-    minWidth: '300px'
+    minWidth: '300px',
+    height: '500px' // IMPORTANTE: Altura fija para evitar saltos cuando cambie la imagen
   },
   image: {
     maxWidth: '100%',
+    maxHeight: '100%', // Se ajusta al contenedor
     height: 'auto',
-    maxHeight: '650px', // Altura máxima para que no se vea gigante
-    filter: 'drop-shadow(-20px 10px 10px rgba(0,0,0,0.5))', // Sombra 3D
+    filter: 'drop-shadow(-20px 10px 10px rgba(0,0,0,0.5))',
     zIndex: 2,
-    objectFit: 'contain'
+    objectFit: 'contain', // Asegura que la imagen no se recorte
+    position: 'absolute' // Para que las imágenes se superpongan en la transición
   },
   gradientOrb: {
     position: 'absolute',
