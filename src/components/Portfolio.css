@@ -1,0 +1,164 @@
+/* src/components/Portfolio.css */
+
+/* --- LAYOUT PRINCIPAL --- */
+.portfolio-section {
+  padding: 80px 0;
+  background: #080808;
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+/* --- TARJETA PRINCIPAL (PREVIEW) --- */
+/* Esto soluciona que el 4to proyecto no se vea bien */
+.card-container {
+  height: 300px; /* Altura fija obligatoria */
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: #1a1a1a; /* Fondo por si la imagen falla */
+}
+
+.card-image {
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; /* Aquí sí recortamos para que la portada se vea linda */
+  transition: transform 0.5s;
+}
+
+.card-overlay {
+  position: absolute; 
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(5px);
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center;
+  color: white; 
+  text-align: center; 
+  gap: 10px;
+}
+
+.btn-fake {
+  padding: 8px 20px; 
+  border: 1px solid white; 
+  border-radius: 50px; 
+  font-size: 0.8rem; 
+  margin-top: 10px;
+  background: transparent;
+  color: white;
+  font-weight: bold;
+}
+
+/* --- MODAL (FONDO) --- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0; 
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* --- MODAL (VENTANA) --- */
+.modal-content {
+  background: #121212;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  border-radius: 20px;
+  border: 1px solid var(--primary); /* Borde de color para resaltar */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 50px rgba(112, 0, 255, 0.15);
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-scroll-area {
+  padding: 30px;
+  overflow-y: auto;
+}
+
+/* Textos */
+.modal-title { font-size: 2rem; margin: 10px 0; color: white; }
+.modal-category { color: var(--secondary); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+.modal-desc { color: #ccc; margin-bottom: 30px; font-size: 1rem; line-height: 1.5; }
+
+/* --- GALERÍA ESTILO PINTEREST (MASONRY) --- */
+.modal-gallery {
+  /* En PC usamos columnas en lugar de cuadrícula fija */
+  column-count: 3; 
+  column-gap: 20px;
+  padding-bottom: 20px;
+}
+
+.gallery-card {
+  /* Esto evita que una imagen se corte entre dos columnas */
+  break-inside: avoid; 
+  margin-bottom: 20px; /* Espacio debajo de cada foto */
+  
+  background: transparent;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  
+  /* Sombra suave para que resalte sobre el fondo */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.05);
+  
+  transition: transform 0.3s ease;
+  cursor: zoom-in; /* Icono de lupa */
+}
+
+.gallery-card:hover {
+  transform: scale(1.02);
+  border-color: var(--secondary);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.gallery-img {
+  width: 100%;
+  height: auto; /* IMPORTANTE: Respeta la altura real de la foto */
+  display: block; /* Quita espacios fantasma */
+  object-fit: cover; /* Solo por seguridad, pero height auto manda */
+}
+
+/* --- MÓVIL (Menos de 768px) --- */
+@media (max-width: 768px) {
+  .modal-gallery {
+    /* En móvil, volvemos a 2 columnas para que se vean bien */
+    column-count: 2;
+    column-gap: 10px;
+  }
+  
+  .gallery-card {
+    margin-bottom: 10px;
+    border-radius: 8px;
+  }
+}
