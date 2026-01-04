@@ -5,10 +5,9 @@ import './Portfolio.css';
 
 // --- IMPORTACIONES (Tus rutas) ---
 import imgRs1 from '../assets/portfolio/rs/pierdesclientes.webp';
-import imgDw1 from '../assets/portfolio/dw/quienessomos.webp';
+import imgDw1 from '../assets/portfolio/dw1/quienessomos.webp';
 import imgDiseno1 from '../assets/portfolio/diseno/pg1.jpeg';
 import imgLogo1 from '../assets/portfolio/Logos/pg3.jpeg'; 
-// Asegúrate de tener las imágenes del 4to proyecto importadas
 import imgLogo2 from '../assets/portfolio/Logos/pg4.jpeg'; 
 
 const projects = [
