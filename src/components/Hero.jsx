@@ -6,7 +6,7 @@ const Hero = () => {
     <section id="inicio" style={styles.section}>
       <div className="container" style={styles.container}>
         
-        {/* --- IZQUIERDA: TEXTO --- */}
+        {/* --- 1. TEXTO (Arriba en móvil) --- */}
         <div style={styles.content}>
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -50,65 +50,61 @@ const Hero = () => {
           </motion.div>
         </div>
 
-        {/* --- DERECHA: EL ESTANDARTE (Símbolo de Areté) --- */}
+        {/* --- 2. EL ESTANDARTE (Abajo en móvil) --- */}
         <div style={styles.artContainer}>
           
-          {/* 1. EL AURA DE PODER (Fondo) */}
+          {/* Fondo Aura (Fijo) */}
           <motion.div 
-            animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.4, 0.2] }}
-            transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+            animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+            transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
             style={styles.powerAura}
           />
 
-          {/* 2. EL ANILLO DE ESTRATEGIA (Laurel abstracto) 
-              Gira lento alrededor del centro */}
-          <motion.div 
-            animate={{ rotate: 360 }}
-            transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-            style={styles.strategyRing}
-          />
-
-          {/* 3. EL EJE DE AUTORIDAD (Línea Vertical) */}
+          {/* --- GRUPO FLOTANTE (LEVITACIÓN) --- 
+              Aquí está la magia: Todo lo de adentro flotará junto */}
           <motion.div
-             initial={{ height: 0 }}
-             animate={{ height: '400px' }} // Crece desde abajo
-             transition={{ duration: 1.5, ease: "easeOut" }}
-             style={styles.axisLine}
+            animate={{ y: [0, -20, 0] }} // Sube y baja 20px
+            transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+            style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           >
-             {/* Luz interior del eje */}
-             <div style={styles.axisCore}></div>
-          </motion.div>
 
-          {/* 4. LA JOYA DE LA EXCELENCIA (Rombo Superior) 
-              Representa la virtud coronando la estructura */}
-          <motion.div
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 1, duration: 1, type: "spring" }}
-            style={styles.diamondContainer}
-          >
-            {/* El Rombo Dorado */}
+            {/* Anillo Estrategia (Girando) */}
             <motion.div 
-              animate={{ y: [0, -10, 0] }} // Flota suavemente (Respiración)
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              style={styles.diamond}
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+              style={styles.strategyRing}
             />
-            {/* Destello del rombo */}
+
+            {/* Eje Vertical (La Aguja) */}
+            <motion.div
+               initial={{ height: 0 }}
+               animate={{ height: '400px' }} 
+               transition={{ duration: 1.5, ease: "easeOut" }}
+               style={styles.axisLine}
+            >
+               <div style={styles.axisCore}></div>
+            </motion.div>
+
+            {/* Joya Superior */}
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 1, duration: 0.5 }}
+              style={styles.diamondContainer}
+            >
+              <div style={styles.diamond} />
+              <div style={styles.diamondGlow} />
+            </motion.div>
+
+            {/* Base Flotante */}
             <motion.div 
-              animate={{ opacity: [0.5, 1, 0.5], scale: [1, 1.2, 1] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              style={styles.diamondGlow}
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1 }}
+              style={styles.basePedestal}
             />
+
           </motion.div>
-
-          {/* 5. LA BASE (Fundamento Sólido) */}
-          <motion.div 
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 1 }}
-            style={styles.basePedestal}
-          />
-
         </div>
 
       </div>
@@ -116,7 +112,7 @@ const Hero = () => {
   );
 };
 
-// --- ESTILOS "ARETÉ" (Militar/Político/Elegante) ---
+// --- ESTILOS ---
 const styles = {
   section: {
     minHeight: '100vh',
@@ -136,18 +132,21 @@ const styles = {
     maxWidth: '1200px',
     margin: '0 auto',
     padding: '0 20px',
-    flexWrap: 'wrap-reverse'
+    flexWrap: 'wrap' // Texto primero, arte abajo si no cabe
   },
   content: {
     flex: 1,
     minWidth: '300px',
     zIndex: 10,
-    marginTop: '40px'
+    marginTop: '40px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center'
   },
   badge: {
     display: 'inline-block',
     fontSize: '0.75rem',
-    color: 'var(--secondary)', // Dorado
+    color: 'var(--secondary)', 
     letterSpacing: '3px',
     fontWeight: 'bold',
     textTransform: 'uppercase',
@@ -161,7 +160,7 @@ const styles = {
     lineHeight: '1',
     color: 'white',
     marginBottom: '25px',
-    fontFamily: 'serif' // Importante para el toque clásico
+    fontFamily: 'serif'
   },
   subtitle: {
     fontSize: '1.1rem',
@@ -182,7 +181,7 @@ const styles = {
     fontSize: '0.9rem',
     fontWeight: 'bold',
     cursor: 'pointer',
-    borderRadius: '2px', // Bordes rectos = Disciplina
+    borderRadius: '2px', 
     letterSpacing: '1px',
     transition: '0.3s'
   },
@@ -199,35 +198,34 @@ const styles = {
     transition: '0.3s'
   },
 
-  // --- ARTE: EL ESTANDARTE ---
+  // --- ARTE ---
   artContainer: {
     flex: 1,
     minWidth: '300px',
     height: '600px',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center', // Centramos todo en el eje
+    alignItems: 'center', 
     position: 'relative',
-    flexDirection: 'column' // Importante para apilar verticalmente
+    flexDirection: 'column'
   },
   powerAura: {
     position: 'absolute',
     width: '500px',
     height: '500px',
-    background: 'radial-gradient(circle, rgba(112,0,255,0.2) 0%, transparent 70%)',
+    background: 'radial-gradient(circle, rgba(112,0,255,0.15) 0%, transparent 60%)',
     zIndex: 0
   },
   strategyRing: {
     position: 'absolute',
     width: '350px',
     height: '350px',
-    border: '1px dashed rgba(255,255,255,0.1)', // Línea discontinua = Estrategia
+    border: '1px dashed rgba(255,255,255,0.2)', // Aumenté un poco la visibilidad
     borderRadius: '50%',
     zIndex: 1
   },
-  // La Línea Vertical (El Eje Moral)
   axisLine: {
-    width: '40px', // Un poco ancho para parecer una columna fina
+    width: '40px', 
     position: 'relative',
     zIndex: 5,
     background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%)',
@@ -235,15 +233,14 @@ const styles = {
     justifyContent: 'center'
   },
   axisCore: {
-    width: '2px', // El núcleo de luz pura
+    width: '2px',
     height: '100%',
     background: 'linear-gradient(to top, transparent, var(--secondary), white)',
-    boxShadow: '0 0 15px var(--secondary)'
+    boxShadow: '0 0 20px var(--secondary)'
   },
-  // La Joya Superior
   diamondContainer: {
     position: 'absolute',
-    top: '18%', // Ubicación de la "cabeza"
+    top: '18%', 
     zIndex: 10,
     display: 'flex',
     justifyContent: 'center',
@@ -252,19 +249,18 @@ const styles = {
   diamond: {
     width: '60px',
     height: '60px',
-    background: 'var(--secondary)', // Oro sólido
-    transform: 'rotate(45deg)', // Forma de rombo
+    background: 'var(--secondary)', 
+    transform: 'rotate(45deg)', 
     boxShadow: '0 0 30px rgba(255, 214, 0, 0.4), inset 0 0 10px rgba(255,255,255,0.5)',
     border: '2px solid white'
   },
   diamondGlow: {
     position: 'absolute',
-    width: '100px',
-    height: '100px',
-    background: 'radial-gradient(circle, rgba(255, 214, 0, 0.3) 0%, transparent 70%)',
+    width: '120px',
+    height: '120px',
+    background: 'radial-gradient(circle, rgba(255, 214, 0, 0.2) 0%, transparent 70%)',
     zIndex: -1
   },
-  // La Base (Fundamento)
   basePedestal: {
     position: 'absolute',
     bottom: '15%',
