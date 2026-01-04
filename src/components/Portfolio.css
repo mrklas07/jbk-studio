@@ -13,36 +13,55 @@
 }
 
 /* --- TARJETA PRINCIPAL (PREVIEW) --- */
-/* Esto soluciona que el 4to proyecto no se vea bien */
 .card-container {
-  height: 300px; /* Altura fija obligatoria */
+  height: 300px;
   border-radius: 15px;
   overflow: hidden;
   position: relative;
   cursor: pointer;
   border: 1px solid rgba(255,255,255,0.1);
-  background: #1a1a1a; /* Fondo por si la imagen falla */
+  background: #1a1a1a;
+  /* Flexbox para asegurar estructura */
+  display: flex; 
+  flex-direction: column;
 }
 
 .card-image {
   width: 100%; 
   height: 100%; 
-  object-fit: cover; /* Aquí sí recortamos para que la portada se vea linda */
+  object-fit: cover; 
   transition: transform 0.5s;
 }
 
+/* Efecto Zoom al pasar el mouse (Solo PC) */
+.card-container:hover .card-image {
+  transform: scale(1.1);
+}
+
+/* --- CAPA DE TEXTO (OVERLAY) --- */
 .card-overlay {
   position: absolute; 
   inset: 0;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.85); /* Fondo oscuro completo en PC */
   backdrop-filter: blur(5px);
+  
   display: flex; 
   flex-direction: column; 
   align-items: center; 
   justify-content: center;
-  color: white; 
   text-align: center; 
   gap: 10px;
+  padding: 20px;
+  
+  /* LÓGICA DE VISIBILIDAD (PC) */
+  opacity: 0; /* Oculto por defecto */
+  transition: opacity 0.3s ease-in-out;
+  z-index: 10;
+}
+
+/* Al pasar el mouse en PC, aparece */
+.card-container:hover .card-overlay {
+  opacity: 1;
 }
 
 .btn-fake {
@@ -51,9 +70,10 @@
   border-radius: 50px; 
   font-size: 0.8rem; 
   margin-top: 10px;
-  background: transparent;
+  background: rgba(255,255,255,0.1);
   color: white;
   font-weight: bold;
+  backdrop-filter: blur(5px);
 }
 
 /* --- MODAL (FONDO) --- */
@@ -75,7 +95,7 @@
   max-width: 900px;
   max-height: 90vh;
   border-radius: 20px;
-  border: 1px solid var(--primary); /* Borde de color para resaltar */
+  border: 1px solid var(--primary);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -105,35 +125,29 @@
   overflow-y: auto;
 }
 
-/* Textos */
+/* Textos del Modal */
 .modal-title { font-size: 2rem; margin: 10px 0; color: white; }
 .modal-category { color: var(--secondary); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
 .modal-desc { color: #ccc; margin-bottom: 30px; font-size: 1rem; line-height: 1.5; }
 
 /* --- GALERÍA ESTILO PINTEREST (MASONRY) --- */
 .modal-gallery {
-  /* En PC usamos columnas en lugar de cuadrícula fija */
-  column-count: 3; 
+  column-count: 3; /* 3 Columnas en PC */
   column-gap: 20px;
   padding-bottom: 20px;
 }
 
 .gallery-card {
-  /* Esto evita que una imagen se corte entre dos columnas */
   break-inside: avoid; 
-  margin-bottom: 20px; /* Espacio debajo de cada foto */
-  
+  margin-bottom: 20px;
   background: transparent;
   border-radius: 12px;
   overflow: hidden;
   position: relative;
-  
-  /* Sombra suave para que resalte sobre el fondo */
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   border: 1px solid rgba(255,255,255,0.05);
-  
   transition: transform 0.3s ease;
-  cursor: zoom-in; /* Icono de lupa */
+  cursor: zoom-in;
 }
 
 .gallery-card:hover {
@@ -144,21 +158,46 @@
 
 .gallery-img {
   width: 100%;
-  height: auto; /* IMPORTANTE: Respeta la altura real de la foto */
-  display: block; /* Quita espacios fantasma */
-  object-fit: cover; /* Solo por seguridad, pero height auto manda */
+  height: auto; 
+  display: block; 
+  object-fit: cover;
 }
 
-/* --- MÓVIL (Menos de 768px) --- */
+/* --- MÓVIL Y TABLET (Ajustes Críticos) --- */
 @media (max-width: 768px) {
+  
+  /* 1. Ajuste del Modal y Galería en Móvil */
+  .modal-content {
+    max-height: 85vh; /* Un poco más pequeña para que quepa bien */
+  }
+  
   .modal-gallery {
-    /* En móvil, volvemos a 2 columnas para que se vean bien */
-    column-count: 2;
+    column-count: 2; /* Solo 2 columnas en móvil */
     column-gap: 10px;
   }
   
   .gallery-card {
     margin-bottom: 10px;
     border-radius: 8px;
+  }
+
+  /* 2. SOLUCIÓN DE VISIBILIDAD TARJETAS EN MÓVIL */
+  .card-overlay {
+    /* Forzamos que sea visible siempre */
+    opacity: 1 !important; 
+    
+    /* Degradado solo abajo para que se vea la imagen arriba */
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0.6) 50%, transparent 100%);
+    backdrop-filter: none;
+    
+    /* Alineamos el texto abajo */
+    justify-content: flex-end; 
+    padding-bottom: 30px;
+    align-items: center;
+  }
+  
+  /* Texto un poco más pequeño en móvil */
+  .card-overlay h3 {
+    font-size: 1.3rem !important;
   }
 }
